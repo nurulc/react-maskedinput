@@ -4,26 +4,30 @@ import React from 'react'
 import {render} from 'react-dom'
 
 import MaskedInput from '../../src'
+import RX from 'incr-regex-package'
 
 const PATTERNS = [
   '1111 1111',
   '111 111',
   '11 11',
   '1 1'
-]
+];
+
+window.RX = RX;
 
 const App = React.createClass({
   getInitialState() {
     return {
-      card: '',
-      expiry: '',
+      card:  '',
+      email: '',
+      tester: '',
       ccv: '',
       plate: '',
       escaped: '',
       leading: '',
       custom: '',
       changing: '',
-      pattern: '1111 1111'
+      pattern: '1111 1111' 
     }
   },
 
@@ -38,14 +42,64 @@ const App = React.createClass({
   },
 
   render() {
-    return <div className="App">
+    var rx = "1111112";  ///123-...456/;
+    var rx1 = new RegExp("\\+\\(\\d{3}\\)-\\d{3}-\\d{4}|#\\d{3}\.\\d{3}X?YZ| ?\\d{3}---\\d{4}\\.");
+    var rz2 = /aa[a-zA-Z]+@@\d+!!/;
+    var email = /[a-zA-Z_0-9][a-zA-Z_.0-9-]*@([a-zA-Z_0-9][a-zA-Z_.0-9-]*)+/
+    //console.log("here I am",rx, RX.RXInputMask);
+    return (
+      <div className="App">
+      <h1>
+        <code>&lt;<a href="https://github.com/insin/react-maskedinput">MaskedInput</a>/&gt;</code>
+      </h1>
+      <p></p>
+      <p className="lead">A React component which creates a masked <code>&lt;input/&gt;</code></p>
+      <div className="form-field" style={ {verticalAlign: 'top'} } >
+        <label htmlFor="card">Card Number xxx:</label>
+        <MaskedInput mask={rx1} name="card" id="card" size="20" value={this.state.card} onChange={this._onChange}/>
+      </div>
+      <div className="form-field">
+        <label htmlFor="email">Email:</label>
+        <MaskedInput mask={email} name="mail" id="mail" size="40" value={this.state.email} onChange={this._onChange}/>
+      </div>
+      <div className="form-field">
+        <label htmlFor="tester">Tester:</label>
+        <MaskedInput mask={rz2} name="mail" id="tester" size="40" value={this.state.tester} onChange={this._onChange}/>
+      </div>
+   
+      </div>  
+      )
+  }
+})
+
+const CustomInput = React.createClass({
+  render() {
+    return <MaskedInput
+      mask="1111-WW-11"
+      placeholder="1234-WW-12"
+      placeholderChar=" "
+      size="11"
+      {...this.props}
+      formatCharacters={{
+        'W': {
+          validate(char) { return /\w/.test(char) },
+          transform(char) { return char.toUpperCase() }
+        }
+      }
+    }/>
+  }
+})
+
+render(<App/>, document.getElementById('demo'))
+/*
+<div className="App">
       <h1>
         <code>&lt;<a href="https://github.com/insin/react-maskedinput">MaskedInput</a>/&gt;</code>
       </h1>
       <p className="lead">A React component which creates a masked <code>&lt;input/&gt;</code></p>
       <div className="form-field">
-        <label htmlFor="card">Card Number:</label>
-        <MaskedInput mask="1111 1111 1111 1111" name="card" id="card" size="20" value={this.state.card} onChange={this._onChange}/>
+        <label htmlFor="card">Card Number xxx:</label>
+        <MaskedInput mask={rx1} name="card" id="card" size="20" value={this.state.card} onChange={this._onChange}/>
       </div>
       <p>You can even externally update the card state like a standard input element:</p>
       <div className="form-field">
@@ -96,25 +150,4 @@ const App = React.createClass({
       <hr/>
       <footer><a href="https://github.com/insin/react-maskedinput">Source on GitHub</a></footer>
     </div>
-  }
-})
-
-const CustomInput = React.createClass({
-  render() {
-    return <MaskedInput
-      mask="1111-WW-11"
-      placeholder="1234-WW-12"
-      placeholderChar=" "
-      size="11"
-      {...this.props}
-      formatCharacters={{
-        'W': {
-          validate(char) { return /\w/.test(char) },
-          transform(char) { return char.toUpperCase() }
-        }
-      }
-    }/>
-  }
-})
-
-render(<App/>, document.getElementById('demo'))
+*/

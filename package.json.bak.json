@@ -1,7 +1,7 @@
 {
   "name": "react-maskedinput",
   "description": "Masked <input/> React component",
-  "version": "3.1.3",
+  "version": "3.1.2",
   "main": "./lib/index.js",
   "jsnext:main": "es6/index.js",
   "standalone": "MaskedInput",
@@ -28,7 +28,7 @@
     "test:watch": "nwb test --server"
   },
   "dependencies": {
-    "incr-regex-package": "C:/Users/choudnu/Downloads/projects/incr-regex-package",
+    "incr-regex-package": "git+https://github.com/nurulc/incr-regex-package.git",
     "inputmask-core": "^2.1.1"
   },
   "peerDependencies": {

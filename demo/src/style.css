@@ -34,7 +34,9 @@ label {
 }
 input {
   border: none;
-  font-size: 1.5em;
+  font-size: 1em;
+  text-align: top;
+  margin: 3px;
 }
 footer {
   text-align: center;
